@@ -82,6 +82,9 @@ export const PeoplePage = () => {
     setSearchParams(nextSearch);
   };
 
+  const noMatchingPeople =
+    !isLoading && !error && people.length > 0 && sortedPeople.length === 0;
+
   return (
     <>
       <h1 className="title">People Page</h1>
@@ -111,8 +114,13 @@ export const PeoplePage = () => {
                   There are no people on the server
                 </p>
               )}
+              {noMatchingPeople && (
+                <p data-cy="noMatchMessage">
+                  There are no people matching the current search criteria
+                </p>
+              )}
 
-              {!isLoading && !error && people.length > 0 && (
+              {!isLoading && !error && sortedPeople.length > 0 && (
                 <PeopleTable
                   people={sortedPeople}
                   selectedSlug={selectedSlug}
