@@ -29,13 +29,13 @@ export const PeoplePage = () => {
       .finally(() => setIsLoading(false));
   }, []);
 
-  const query = searchParams.get('query');
-  const centuries = searchParams.getAll('centuries').map(c => Number(c));
-  const sex = searchParams.get('sex') as Sex | null;
-  const sortField = searchParams.get('sort') as SortField | null;
-  const order = searchParams.get('order') === 'desc' ? Order.DESC : Order.ASC;
-
   const sortedPeople = useMemo(() => {
+    const query = searchParams.get('query');
+    const centuries = searchParams.getAll('centuries').map(c => Number(c));
+    const sex = searchParams.get('sex') as Sex | null;
+    const sortField = searchParams.get('sort') as SortField | null;
+    const order = searchParams.get('order') === 'desc' ? Order.DESC : Order.ASC;
+
     const filters = {
       query: query ?? '',
       centuries,
@@ -47,7 +47,10 @@ export const PeoplePage = () => {
     const sorted = getSortedPeople(filtered, sortOptions);
 
     return sorted;
-  }, [centuries, order, people, query, sex, sortField]);
+  }, [people, searchParams]);
+
+  const sortField = searchParams.get('sort') as SortField | null;
+  const order = searchParams.get('order') === 'desc' ? Order.DESC : Order.ASC;
 
   const handleSearchChange = (clickedField: SortField) => {
     let nextSort: SortField | null = null;
